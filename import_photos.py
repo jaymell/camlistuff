@@ -38,26 +38,35 @@ def main():
   album_title = args.title
   glob_path = args.glob_path
 
+  # FIXME: find if it actually exists before duplicating:
   folder_permanode, stderr, rc = create_permanode()
   if rc != 0:
     sys.exit(1)
   stdout, stderr, rc = put_attr(folder_permanode, "title", album_title)
   if rc != 0:
     sys.exit(1)    
+  ### END FIXME
+
   # FIXME... please
   for photo in glob.glob(glob_path):
-    stdout, stderr, rc = pic_permanode, stderr, rc = create_permanode()
-    if rc != 0:
-      continue
-    stdout, stderr, rc = put_attr(pic_permanode, "title", os.path.basename(photo)) 
-    if rc != 0:
-      continue
+    # upload file:
     new_file, stderr, rc = put_file(photo)
     if rc != 0:
       continue
+    # create permanode for file:
+    # FIXME: find if desired permanode already exists before re-creating;
+    stdout, stderr, rc = pic_permanode, stderr, rc = create_permanode()
+    if rc != 0:
+      continue
+    # give pic permanode a name:
+    stdout, stderr, rc = put_attr(pic_permanode, "title", os.path.basename(photo)) 
+    if rc != 0:
+      continue
+    # associate permanode with pic file:
     stdout, stderr, rc = put_attr(pic_permanode, "camliContent", new_file)
     if rc != 0:
       continue
+    # associate 
     stdout, stderr, rc = put_attr(folder_permanode, "camliPath:%s" % os.path.basename(photo) , pic_permanode)
     if rc != 0:
       continue    
