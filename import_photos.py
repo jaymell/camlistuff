@@ -31,14 +31,21 @@ def put_file(f):
     return call_process(['camput', 'file', f])
 
 def main():
+  argparser = argparse.ArgumentParser(description='upload pics to camlistore')
+  argparser.add_argument("-g", "--glob-path", required=True, action="store", help="path (and glob) -- e.g., '/home/pics/*jpeg'")
+  argparser.add_argument("-t", "--title", required=True, action="store", help="title of album")
+  args = argparser.parse_args()
+  album_title = args.title
+  glob_path = args.glob_path
+
   folder_permanode, stderr, rc = create_permanode()
   if rc != 0:
     sys.exit(1)
-  stdout, stderr, rc = put_attr(folder_permanode, "title", "2015 Vacation")
+  stdout, stderr, rc = put_attr(folder_permanode, "title", album_title)
   if rc != 0:
     sys.exit(1)    
   # FIXME... please
-  for photo in glob.glob('/home/james/Pictures/2015-vacation/james/*jpg'):
+  for photo in glob.glob(glob_path):
     stdout, stderr, rc = pic_permanode, stderr, rc = create_permanode()
     if rc != 0:
       continue
