@@ -1,0 +1,60 @@
+---
+name: camlistore
+version: latest
+summary: camlistore client utils
+description:
+  this is calmistore; note that building requires golang 1.7+
+confinement: strict
+
+apps:
+  camget:
+    command: bin/camget
+    plugs:
+    - network
+    # - network-bind
+  devcam:
+    command: bin/devcam
+    plugs:
+    - network
+    - network-bind
+  camput: 
+    command: bin/camput
+    plugs:
+    - network
+    # - network-bind
+  hello:
+    command: bin/hello
+    plugs:
+    - network
+    - network-bind
+  camtool:
+    command: bin/camtool
+    plugs:
+    - network
+    # - network-bind
+  camlistored:
+    command: bin/camlistored
+    plugs:
+    - network
+    - network-bind
+  publisher:
+    command: bin/publisher
+    plugs:
+    - network
+    # - network-bind
+  camdeploy:
+    command: bin/camdeploy
+    plugs:
+    - network
+    # - network-bind
+  cammount:
+    command: bin/cammount
+    plugs:
+    - network
+    # - network-bind
+
+parts:
+  camlistore:
+    plugin: camlimake
+    source: https://github.com/camlistore/camlistore
+    source-type: git
