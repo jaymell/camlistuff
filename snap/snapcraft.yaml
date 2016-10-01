@@ -34,6 +34,7 @@ apps:
     # - network-bind
   camlistored:
     command: bin/camlistored
+    daemon: simple
     plugs:
     - network
     - network-bind
